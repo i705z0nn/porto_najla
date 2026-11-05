@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Portfolio of Najla Putri Afifah, a backend developer and software engineering graduate focused on reliable systems and business value." />
     <meta name="theme-color" content="#fff8fb" />
+    <script>
+      try {
+        if (localStorage.getItem("mode") === "dark") {
+          document.documentElement.dataset.mode = "dark";
+          document.querySelector('meta[name="theme-color"]').content = "#1c1520";
+        }
+      } catch {}
+    </script>
     <link rel="icon" href="/favicon.ico" />
     <title>Najla Putri Afifah — Backend Developer</title>
   </head>

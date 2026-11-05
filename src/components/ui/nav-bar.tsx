@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Magnetic } from "@/components/ui/magnetic";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -64,6 +65,7 @@ export function NavBar() {
         <nav className="flex items-center gap-5">
           {links.map((link) => <a key={link.href} href={link.href} className="nav-link text-xs font-semibold" aria-current={active === link.href && link.href !== "#home" ? "true" : undefined}>{link.label}</a>)}
         </nav>
+        <ThemeToggle className="grid size-8 place-items-center rounded-full transition hover:bg-accent-primary/20" />
         <AnimatePresence initial={false}>
           {scrolled && (
             <motion.span initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: "auto" }} exit={{ opacity: 0, width: 0 }} transition={{ duration: .4, ease: EASE }} className="-my-2 overflow-hidden py-2">
@@ -82,6 +84,7 @@ export function NavBar() {
       >
         {open ? <X size={22} /> : <Menu size={22} />}
       </button>
+      <ThemeToggle size={20} className="fixed right-[4.5rem] top-4 z-[70] grid size-12 place-items-center rounded-full bg-bg-contrast text-fg-inverted shadow-[0_12px_30px_rgba(112,80,108,.2)] md:hidden" />
 
       <AnimatePresence>
         {open && (

@@ -10,7 +10,7 @@ const pad = (value: number) => String(value).padStart(2, "0");
 
 const themeVars = (project: Project) => {
   const theme = projectThemes[project.id];
-  return { "--project-bg": theme.bg, "--project-accent": theme.accent, "--project-text": theme.text } as CSSProperties;
+  return { "--project-bg": theme.bg, "--project-accent": theme.accent, "--project-text": theme.text, "--project-on": theme.on } as CSSProperties;
 };
 
 type CasePanelProps = {

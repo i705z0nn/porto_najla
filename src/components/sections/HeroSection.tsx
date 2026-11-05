@@ -21,7 +21,7 @@ export function HeroSection({ ready }: { ready: boolean }) {
           scale: radialScale,
           background: "radial-gradient(closest-side, var(--sem-bg-base) 72%, color-mix(in srgb, var(--sem-accent-primary) 72%, white) 86%, color-mix(in srgb, var(--sem-accent-secondary) 84%, white) 94%, transparent 100%)",
         }}
-        className="pointer-events-none absolute left-1/2 top-[72%] h-[55vw] min-h-[520px] w-[120vw] -translate-x-1/2 rounded-[50%] opacity-95"
+        className="hero-arc pointer-events-none absolute left-1/2 top-[72%] h-[55vw] min-h-[520px] w-[120vw] -translate-x-1/2 rounded-[50%] opacity-95"
       />
 
       <motion.div style={{ y: contentY, opacity: contentOpacity }} className="hero-parallax container-shell relative z-10 grid min-h-[calc(100dvh-7rem)] grid-cols-[minmax(0,1fr)] items-center gap-12 pb-24 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,.75fr)]">

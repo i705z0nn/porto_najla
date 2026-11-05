@@ -124,8 +124,8 @@ export const projects: Project[] = [
 export const categories = ["All", "Backend", "Fullstack", "Mobile", "Design"];
 
 // Cards alternate between tints of the site's two accents.
-const pink = { bg: "#f8e5ef", accent: "#f3a9c4", text: "#4b3341" };
-const lilac = { bg: "#efe6f7", accent: "#d8c5e8", text: "#4f3f56" };
+const pink = { bg: "var(--project-pink-bg)", accent: "var(--project-pink-accent)", text: "var(--project-pink-text)", on: "var(--project-pink-on)" };
+const lilac = { bg: "var(--project-lilac-bg)", accent: "var(--project-lilac-accent)", text: "var(--project-lilac-text)", on: "var(--project-lilac-on)" };
 
 export const projectThemes: Record<string, typeof pink> = {
   digilog: pink,
