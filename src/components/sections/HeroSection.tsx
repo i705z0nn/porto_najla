@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDownRight, ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowDownRight, MapPin } from "lucide-react";
 import { useRef } from "react";
+import { Tilt } from "@/components/ui/tilt";
+import { WorkbenchPanel } from "@/components/ui/workbench-panel";
 
-export function HeroSection() {
+export function HeroSection({ ready }: { ready: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
@@ -22,7 +24,7 @@ export function HeroSection() {
         className="pointer-events-none absolute left-1/2 top-[72%] h-[55vw] min-h-[520px] w-[120vw] -translate-x-1/2 rounded-[50%] opacity-95"
       />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="container-shell relative z-10 grid min-h-[calc(100dvh-7rem)] grid-cols-[minmax(0,1fr)] items-center gap-12 pb-24 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,.75fr)]">
+      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="hero-parallax container-shell relative z-10 grid min-h-[calc(100dvh-7rem)] grid-cols-[minmax(0,1fr)] items-center gap-12 pb-24 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,.75fr)]">
         <div className="min-w-0">
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6 }} className="mb-8 flex flex-col items-start gap-3 text-[11px] font-semibold uppercase tracking-[.14em] text-fg-muted sm:flex-row sm:flex-wrap sm:items-center sm:text-xs sm:tracking-[.16em]">
             <span className="rounded-full border border-border-subtle bg-bg-elevated/70 px-4 py-2 shadow-sm">Backend Developer</span>
@@ -49,15 +51,14 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        <motion.aside initial={{ opacity: 0, x: 35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .85, delay: .3 }} className="relative mx-auto hidden w-full max-w-[390px] lg:block">
-          <div className="absolute -inset-4 rotate-3 rounded-[2rem] border border-accent-primary/50 bg-accent-secondary/10" />
-          <div className="soft-shadow relative aspect-[.76] overflow-hidden rounded-[1.65rem] border border-border-subtle bg-bg-elevated">
-            <img src="/images/najla-portrait.png" alt="Najla Putri Afifah" className="h-full w-full object-cover object-top grayscale-[15%]" />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-contrast via-bg-contrast/55 to-transparent p-6 pt-24 text-fg-inverted">
-              <p className="font-display text-3xl">Najla Putri Afifah</p>
-              <a href="mailto:najlaputriafifah16@gmail.com" className="mt-2 inline-flex items-center gap-1 text-xs text-fg-inverted/80">Available for meaningful work <ArrowUpRight size={13} /></a>
+        <motion.aside initial={{ opacity: 0, x: 35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .85, delay: .3 }} className="relative mx-auto w-full max-w-[28rem]">
+          <Tilt max={6}>
+            <WorkbenchPanel ready={ready} />
+            <div className="panel-badge">
+              <span>Experience</span>
+              <strong>1+ year</strong>
             </div>
-          </div>
+          </Tilt>
         </motion.aside>
       </motion.div>
     </section>

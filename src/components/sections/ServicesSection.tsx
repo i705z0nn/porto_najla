@@ -1,66 +1,77 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import { useState, type PointerEvent } from "react";
+import { MaskText } from "@/components/ui/mask-text";
 import { Reveal } from "@/components/ui/reveal";
+import { capabilities } from "@/data/portfolio";
+import { EASE, trackCellSpot, useInteractive } from "@/lib/motion";
 
-const capabilities = [
-  { title: "backend development", subtitle: "Reliable server-side logic and operational workflows", image: "/images/projects/vms-showcase.png" },
-  { title: "API & integration", subtitle: "Clear interfaces across products, teams, and data", image: "/images/projects/ckl-connect-showcase.png" },
-  { title: "data layer design", subtitle: "SQL-first thinking for dependable business systems", image: "/images/projects/fms-showcase.png" },
-  { title: "business analysis", subtitle: "Turning requirements into buildable system decisions", image: "/images/projects/re-actions-showcase.png" },
-  { title: "product collaboration", subtitle: "Bridging stakeholders and development teams", image: "/images/projects/wearshare-showcase.png" },
-];
+const cells: { title: string; subtitle: string; image?: string }[] = [...capabilities, { title: "Tangerang, Indonesia", subtitle: "Based in" }];
+
+const FOLLOW_SPRING = { stiffness: 220, damping: 26, mass: .5 };
 
 export function ServicesSection() {
-  const [active, setActive] = useState(0);
-  return (
-    <section data-theme="services" id="expertise" className="relative overflow-hidden bg-bg-base py-28 text-fg-primary md:py-40">
-      <div aria-hidden className="pastel-orb absolute -left-20 top-24 size-64 rounded-[55%_45%_65%_35%] bg-accent-secondary/25" />
-      <div className="container-shell">
-        <Reveal className="grid gap-6 border-b border-border-subtle pb-12 md:grid-cols-2 md:items-end">
-          <div><p className="section-kicker">What I bring · 02</p><h2 className="mt-4 font-display text-6xl leading-[.9] tracking-tight md:text-8xl">Technical depth,<br /><em className="text-accent-primary">business context.</em></h2></div>
-          <p className="max-w-lg text-fg-muted md:justify-self-end">A backend foundation with a growing focus on business analysis and project management—useful where technical systems must make sense to the people running them.</p>
-        </Reveal>
+  const interactive = useInteractive();
+  const [hovered, setHovered] = useState<number | null>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const followX = useSpring(x, FOLLOW_SPRING);
+  const followY = useSpring(y, FOLLOW_SPRING);
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+  const onPointerMove = (event: PointerEvent<HTMLElement>) => {
+    x.set(event.clientX);
+    y.set(event.clientY);
+    trackCellSpot(event);
+  };
+
+  const image = hovered === null ? null : cells[hovered].image;
+
+  return (
+    <section data-theme="services" id="expertise" className="relative overflow-x-clip bg-bg-base py-24 text-fg-primary md:py-36">
+      <div aria-hidden className="pastel-orb absolute -left-20 top-24 size-64 rounded-[55%_45%_65%_35%] bg-accent-secondary/25" />
+      <div className="container-shell relative">
+        <div className="grid gap-14 lg:grid-cols-2 lg:gap-24">
           <div>
-            {capabilities.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
-                onClick={() => setActive(index)}
-                className="group flex w-full items-center justify-between gap-4 border-b border-border-subtle py-4 text-left md:py-5"
-              >
-                <span className="min-w-0">
-                  <span
-                    className={`font-display text-[1.65rem] tracking-tight transition md:text-[2.1rem] ${
-                      active === index ? "text-accent-primary" : "text-fg-primary/35 group-hover:text-fg-primary"
-                    }`}
-                  >
-                    {item.title}
-                  </span>
-                  <span
-                    className={`mt-1.5 block max-w-md text-xs leading-5 text-fg-muted transition ${
-                      active === index ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {item.subtitle}
-                  </span>
-                </span>
-                <span className="shrink-0 text-xs text-fg-muted">0{index + 1}</span>
-              </button>
+            <Reveal><p className="section-kicker mb-5">What I bring · 02</p></Reveal>
+            <MaskText className="section-title" lines={["Technical depth,", <em className="text-accent-primary">business context.</em>]} />
+          </div>
+          <Reveal className="flex flex-col justify-end" delay={.15}>
+            <p className="max-w-xl text-xl leading-relaxed tracking-[-.02em] md:text-2xl">A backend foundation with a growing focus on business analysis and project management—useful where technical systems must make sense to the people running them.</p>
+            <p className="mt-6 max-w-lg text-sm leading-relaxed text-fg-muted">Backend developer connecting dependable engineering with business value.</p>
+          </Reveal>
+        </div>
+
+        <Reveal>
+          <div className="soft-grid mt-14 md:mt-20" onPointerMove={onPointerMove} onPointerLeave={() => setHovered(null)}>
+            {cells.map((cell, index) => (
+              <div className="grid-cell" key={cell.title} onPointerEnter={() => setHovered(index)}>
+                <div className="grid-cell-head">
+                  <span className="grid-cell-title">{cell.title}</span>
+                  <span className="grid-cell-number" aria-hidden>{String(index + 1).padStart(2, "0")}</span>
+                </div>
+                <p className="mt-8 text-xs text-fg-muted">{cell.subtitle}</p>
+              </div>
             ))}
           </div>
-          <div className="soft-shadow relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-border-subtle bg-bg-elevated md:aspect-[5/6]">
-            <AnimatePresence mode="wait">
-              <motion.img key={capabilities[active].image} src={capabilities[active].image} alt={capabilities[active].title} initial={{ opacity: 0, scale: 1.08, clipPath: "inset(100% 0 0 0)" }} animate={{ opacity: 1, scale: 1, clipPath: "inset(0 0 0 0)" }} exit={{ opacity: 0 }} transition={{ duration: .65 }} className="absolute inset-0 h-full w-full object-cover" />
-            </AnimatePresence>
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-contrast/90 via-transparent to-transparent" />
-            <p className="absolute bottom-6 left-6 right-6 font-display text-2xl leading-snug text-fg-inverted md:text-3xl">{capabilities[active].subtitle}</p>
-          </div>
-        </div>
+        </Reveal>
       </div>
+
+      {interactive && (
+        <motion.div className="follow-preview" style={{ x: followX, y: followY }} aria-hidden>
+          <AnimatePresence>
+            {image && (
+              <motion.img
+                key={image}
+                src={image}
+                alt=""
+                initial={{ opacity: 0, scale: .85, rotate: -4 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: .9 }}
+                transition={{ duration: .35, ease: EASE }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      )}
     </section>
   );
 }

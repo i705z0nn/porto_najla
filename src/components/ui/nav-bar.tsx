@@ -1,19 +1,38 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Magnetic } from "@/components/ui/magnetic";
+import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const links = [
   { label: "Home", href: "#home" },
   { label: "Work", href: "#projects" },
   { label: "Expertise", href: "#expertise" },
+  { label: "Toolkit", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Credentials", href: "#credentials" },
 ];
 
 export function NavBar() {
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: .3 });
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("#home");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    links.forEach((link) => {
+      const section = document.querySelector(link.href);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -29,6 +48,7 @@ export function NavBar() {
 
   return (
     <>
+      <motion.div className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-gradient-to-r from-accent-primary to-accent-secondary" style={{ scaleX: progress }} aria-hidden />
       <motion.header
         data-theme="nav"
         initial={{ y: -30, opacity: 0 }}
@@ -42,8 +62,15 @@ export function NavBar() {
         <a href="#home" className="font-display text-xl tracking-tight">Najla.</a>
         <span className="h-5 w-px bg-border-subtle" />
         <nav className="flex items-center gap-5">
-          {links.map((link) => <a key={link.href} href={link.href} className="text-xs font-semibold text-fg-muted transition hover:text-accent-primary">{link.label}</a>)}
+          {links.map((link) => <a key={link.href} href={link.href} className="nav-link text-xs font-semibold" aria-current={active === link.href && link.href !== "#home" ? "true" : undefined}>{link.label}</a>)}
         </nav>
+        <AnimatePresence initial={false}>
+          {scrolled && (
+            <motion.span initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: "auto" }} exit={{ opacity: 0, width: 0 }} transition={{ duration: .4, ease: EASE }} className="-my-2 overflow-hidden py-2">
+              <Magnetic><a href="#contact" className="nav-talk">Let’s talk <ArrowUpRight size={13} /></a></Magnetic>
+            </motion.span>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       <button

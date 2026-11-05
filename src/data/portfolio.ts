@@ -2,6 +2,7 @@ export type Project = {
   id: string;
   title: string;
   eyebrow: string;
+  category: string;
   summary: string;
   role: string;
   period: string;
@@ -16,6 +17,7 @@ export const projects: Project[] = [
     id: "digilog",
     title: "Digilog (Digital Logistic)",
     eyebrow: "CKL · Order Management System",
+    category: "Backend",
     summary: "Cargo operations core for CKL—an Order Management System covering the shipment lifecycle from master data and orders to bagging and manifests across airfreight, FTL, and LTL.",
     role: "Backend Developer",
     period: "Aug 2025 — Present",
@@ -34,6 +36,7 @@ export const projects: Project[] = [
     id: "vms",
     title: "Vendor Management System",
     eyebrow: "CKL · Logistics platform",
+    category: "Backend",
     summary: "A centralized platform that streamlines vendor operations, from onboarding and management to purchase order creation for mid-mile logistics.",
     role: "Backend Developer",
     period: "Aug 2025 — Present",
@@ -51,6 +54,7 @@ export const projects: Project[] = [
     id: "connect",
     title: "CKL Connect",
     eyebrow: "CKL · Multi-agent shipping",
+    category: "Backend",
     summary: "A shipping operations platform for invoicing, domestic and international pricing, parcel tracking, and role-based team management.",
     role: "Backend Developer",
     period: "Aug 2025 — Present",
@@ -63,6 +67,7 @@ export const projects: Project[] = [
     id: "fleet",
     title: "Fleet Management System",
     eyebrow: "CKL · Fleet operations",
+    category: "Backend",
     summary: "A logistics backend for registering trucks and drivers, planning delivery trips, running quality checks, and monitoring delivery execution.",
     role: "Backend Developer",
     period: "Aug 2025 — Present",
@@ -80,6 +85,7 @@ export const projects: Project[] = [
     id: "re-actions",
     title: "Re-Actions",
     eyebrow: "Government · Public service",
+    category: "Fullstack",
     summary: "A public complaint management system for Tangerang City, supporting report intake, lifecycle tracking, and operational data analysis.",
     role: "Fullstack Developer",
     period: "Jul 2024 — Dec 2024",
@@ -91,6 +97,7 @@ export const projects: Project[] = [
     id: "wearshare",
     title: "WearShare",
     eyebrow: "Bangkit · Mobile & machine learning",
+    category: "Mobile",
     summary: "An Android application that analyzes donated clothing images to help charitable organizations determine whether each item is suitable for use.",
     role: "Mobile Developer",
     period: "Feb 2024 — Jun 2024",
@@ -103,6 +110,7 @@ export const projects: Project[] = [
     id: "catty-holic",
     title: "Catty Holic",
     eyebrow: "Figma · Mobile UI",
+    category: "Design",
     summary: "A mobile product concept for cat health consultations and adoption, designed as an interactive end-to-end prototype in Figma.",
     role: "UI/UX Designer",
     period: "Selected academic work",
@@ -111,6 +119,41 @@ export const projects: Project[] = [
     contributions: ["User-focused mobile information architecture", "Veterinary consultation and adoption journeys", "Interactive high-fidelity prototype"],
     link: { label: "Open prototype", href: "https://www.figma.com/proto/SFfqJAUHqUNtUFhNENbapN/cattyhollic?type=design&node-id=1-6&t=DcG3bd8DzdbhiCSL-1&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A6&show-proto-sidebar=1&mode=design" },
   },
+];
+
+export const categories = ["All", "Backend", "Fullstack", "Mobile", "Design"];
+
+// Cards alternate between tints of the site's two accents.
+const pink = { bg: "#f8e5ef", accent: "#f3a9c4", text: "#4b3341" };
+const lilac = { bg: "#efe6f7", accent: "#d8c5e8", text: "#4f3f56" };
+
+export const projectThemes: Record<string, typeof pink> = {
+  digilog: pink,
+  vms: lilac,
+  connect: pink,
+  fleet: pink,
+  "re-actions": lilac,
+  wearshare: lilac,
+  "catty-holic": pink,
+};
+
+export const marqueeItems = ["Backend Development", "API Development", "Requirement Analysis", "System Optimization", "Business Analysis", "Project Collaboration"];
+
+export const capabilities = [
+  { title: "Backend development", subtitle: "Reliable server-side logic and operational workflows", image: "/images/projects/vms-showcase.png" },
+  { title: "API & integration", subtitle: "Clear interfaces across products, teams, and data", image: "/images/projects/ckl-connect-showcase.png" },
+  { title: "Data layer design", subtitle: "SQL-first thinking for dependable business systems", image: "/images/projects/fms-showcase.png" },
+  { title: "Business analysis", subtitle: "Turning requirements into buildable system decisions", image: "/images/projects/re-actions-showcase.png" },
+  { title: "Product collaboration", subtitle: "Bridging stakeholders and development teams", image: "/images/projects/wearshare-showcase.png" },
+];
+
+export const skills = [
+  { name: "Backend", tools: ["PHP", "Laravel", "CodeIgniter 4"] },
+  { name: "APIs & auth", tools: ["JWT", "Laravel Sanctum", "SSO"] },
+  { name: "Data & cache", tools: ["PostgreSQL", "MySQL", "Redis"] },
+  { name: "Queues & realtime", tools: ["Laravel Queue", "Laravel Reverb", "Laravel Echo"] },
+  { name: "Frontend", tools: ["Blade", "JavaScript", "jQuery", "Tailwind CSS", "Vite"] },
+  { name: "Infrastructure", tools: ["Docker", "Jenkins", "AWS S3", "Firebase Cloud Messaging"] },
 ];
 
 export const experiences = [
@@ -151,6 +194,8 @@ export const certifications = [
   { group: "Bangkit Academy", title: "AI Basics", href: "https://www.dicoding.com/certificates/KEXL14YOMXG2" },
   { group: "Bangkit Academy", title: "Machine Learning for Android", href: "https://www.dicoding.com/certificates/MRZMED52NPYQ" },
 ];
+
+export const certificateBundle = "https://drive.google.com/file/d/13p5Ms8IfDX9RGWi0NACzFz4uKnZKOYD7/view?usp=sharing";
 
 export const contact = {
   email: "najlaputriafifah16@gmail.com",
