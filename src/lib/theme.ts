@@ -1,13 +1,13 @@
 export type Mode = "light" | "dark";
 
-// index.html reads the same key before first paint, so a saved choice never flashes.
+// Dark is the default (set on <html> in index.html); a saved "light" is applied there before first paint.
 const STORAGE_KEY = "mode";
 const THEME_COLORS: Record<Mode, string> = { light: "#fff8fb", dark: "#1c1520" };
 
 const listeners = new Set<() => void>();
 
 export function getMode(): Mode {
-  return document.documentElement.dataset.mode === "dark" ? "dark" : "light";
+  return document.documentElement.dataset.mode === "light" ? "light" : "dark";
 }
 
 export function subscribeToMode(listener: () => void) {
